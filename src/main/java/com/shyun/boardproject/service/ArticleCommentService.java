@@ -2,6 +2,7 @@ package com.shyun.boardproject.service;
 
 
 import com.shyun.boardproject.repository.ArticleCommentRepository;
+import com.shyun.boardproject.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class ArticleCommentService {
-
+    private final ArticleRepository articleRepository;
     private final ArticleCommentRepository articleCommentRepository;
 }
