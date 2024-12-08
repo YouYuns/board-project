@@ -11,6 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -26,9 +28,9 @@ class ArticleServiceTest {
     @Test
     void givenSearchParameters_whenSearchingArticles_thenReturnsArticleList(){
         //given
-
+        Pageable pageable = PageRequest.ofSize(20);
         //when
-        Page<ArticleDto> articles = articleService.searchArticles(SearchType.TITLE, "search keyword");
+        Page<ArticleDto> articles = articleService.searchArticles(SearchType.TITLE, "search keyword",pageable);
 
         //then
         assertThat(articles).isNotNull();
