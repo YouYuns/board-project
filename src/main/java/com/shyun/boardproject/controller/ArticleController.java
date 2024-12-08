@@ -6,6 +6,7 @@ import com.shyun.boardproject.dto.response.ArticleResponse;
 import com.shyun.boardproject.dto.response.ArticleWithCommentsResponse;
 import com.shyun.boardproject.service.ArticleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -25,18 +26,21 @@ import java.util.List;
 public class ArticleController {
 
     private final ArticleService articleService;
-
     @GetMapping
     public String articles(
             @RequestParam(required = false) SearchType searchType,
             @RequestParam(required = false) String searchValue,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
-            ModelMap map) {
-        map.addAttribute("articles", articleService.searchArticles(searchType, searchValue, pageable)
-                .map(ArticleResponse::from));
+            ModelMap map
+    ) {
+        Page<ArticleResponse> articles = articleService.searchArticles(searchType, searchValue, pageable).map(ArticleResponse::from);
+
+        map.addAttribute("articles", articles);
+        map.addAttribute("searchTypes", SearchType.values());
+        map.addAttribute("searchTypeHashtag", SearchType.HASHTAG);
+
         return "articles/index";
     }
-
 
     @GetMapping("/{articleId}")
     public String article(@PathVariable Long articleId, ModelMap map) {
