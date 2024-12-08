@@ -11,7 +11,7 @@
         <attr sel="#hashtag" th:each="hashtag : ${article.hashtags}">
             <attr sel="a"
                   th:text="'#' + ${hashtag}"
-                  th:href="@{/templates/articles(searchType=${searchTypeHashtag},searchValue=${hashtag})}"
+                  th:href="@{/articles(searchType=${searchTypeHashtag},searchValue=${hashtag})}"
             />
         </attr>
 
