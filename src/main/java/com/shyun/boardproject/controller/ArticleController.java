@@ -2,7 +2,9 @@ package com.shyun.boardproject.controller;
 
 
 import com.shyun.boardproject.domain.Hashtag;
+import com.shyun.boardproject.domain.type.FormStatus;
 import com.shyun.boardproject.domain.type.SearchType;
+import com.shyun.boardproject.dto.request.ArticleRequest;
 import com.shyun.boardproject.dto.response.ArticleResponse;
 import com.shyun.boardproject.dto.response.ArticleWithCommentsResponse;
 import com.shyun.boardproject.service.ArticleService;
@@ -47,7 +49,7 @@ public class ArticleController {
 
     @GetMapping("/{articleId}")
     public String article(@PathVariable Long articleId, ModelMap map) {
-        ArticleWithCommentsResponse article = ArticleWithCommentsResponse.from(articleService.getArticle(articleId));
+        ArticleWithCommentsResponse article = ArticleWithCommentsResponse.from(articleService.getArticleWithComments(articleId));
         map.addAttribute("article", article) ;
         map.addAttribute("articleComments", article.articleCommentsResponse());
         map.addAttribute("totalCount", articleService.getArticleCount());
@@ -69,10 +71,47 @@ public class ArticleController {
         map.addAttribute("searchTypes", SearchType.HASHTAG);
         return "articles/search-hashtag";
     }
+    // 게시글 작성폼 이동
+    @GetMapping("/form")
+    public String articleForm(ModelMap map) {
+        map.addAttribute("formStatus", FormStatus.CREATED);
+        return "articles/form";
+    }
+
+    //게시글 수정폼 이동
+    @GetMapping("/{articleId}/form")
+    public String updateArticleForm(@PathVariable Long articleId, ModelMap map) {
+        ArticleResponse article = ArticleResponse.from(articleService.getArticle(articleId));
+
+        map.addAttribute("article", article);
+        map.addAttribute("formStatus", FormStatus.UPDATE);
+        return "articles/form";
+    }
+
+    //게시글 수정
+    @PostMapping("/{articleId}/form")
+    public String updateArticle(
+            @PathVariable Long articleId,
+            ArticleRequest articleRequest
+    ){
+        return null;
+    }
+
 
 
     @PostMapping("/{articleId}/form")
     public String updateArticle(@PathVariable Long articleId){
-        return null;
+        return "articles/form";
     }
+
+
+    @PostMapping("/{articleId}/delete")
+    public String deleteArticle(@PathVariable Long articleId) {
+        //TODO : 인증정보를 넣어줘야한다.
+        articleService.deleteArticle(articleId);
+        return "redirect:/articles";
+    }
+
+
+
 }

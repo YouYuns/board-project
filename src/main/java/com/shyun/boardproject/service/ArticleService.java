@@ -39,14 +39,23 @@ public class ArticleService {
         };
     }
 
-    //게시글 상세조회
+    //게시글 상세조회 - 댓글까지 같이 조회
     @Transactional(readOnly = true)
-    public ArticleWithCommentsDto getArticle(Long articleId){
+    public ArticleWithCommentsDto getArticleWithComments(Long articleId){
         return articleRepository.findById(articleId)
                 .map(ArticleWithCommentsDto::from)
                 .orElseThrow(()-> new EntityNotFoundException("게시글이 없습니다 - articleId: " + articleId));
 
     }
+    // 게시글 상세조회
+    @Transactional(readOnly = true)
+    public ArticleDto getArticle(Long articleId){
+        return articleRepository.findById(articleId)
+                .map(ArticleDto::from)
+                .orElseThrow(()-> new EntityNotFoundException("게시글이 없습니다 - articleId: " + articleId));
+    }
+
+
     //게시글 저장
     public void saveArticle(ArticleDto articleDto) {
         articleRepository.save(articleDto.toEntity());
