@@ -7,6 +7,7 @@ import com.shyun.boardproject.domain.type.SearchType;
 import com.shyun.boardproject.dto.request.ArticleRequest;
 import com.shyun.boardproject.dto.response.ArticleResponse;
 import com.shyun.boardproject.dto.response.ArticleWithCommentsResponse;
+import com.shyun.boardproject.security.BoardPrincipal;
 import com.shyun.boardproject.service.ArticleService;
 import com.shyun.boardproject.service.PaginationService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -71,6 +73,16 @@ public class ArticleController {
         map.addAttribute("searchTypes", SearchType.HASHTAG);
         return "articles/search-hashtag";
     }
+
+    @PostMapping("/form")
+    public String postNewArticle(
+            @AuthenticationPrincipal BoardPrincipal boardPrincipal,
+            ArticleRequest articleRequest
+    ) {
+        articleService.saveArticle(articleRequest.toDto(boardPrincipal.toDto()));
+
+        return "redirect:/articles";
+    }
     // 게시글 작성폼 이동
     @GetMapping("/form")
     public String articleForm(ModelMap map) {
@@ -88,27 +100,21 @@ public class ArticleController {
         return "articles/form";
     }
 
-    //게시글 수정
     @PostMapping("/{articleId}/form")
     public String updateArticle(
             @PathVariable Long articleId,
+            @AuthenticationPrincipal BoardPrincipal boardPrincipal,
             ArticleRequest articleRequest
-    ){
-        return null;
-    }
+    ) {
+        articleService.updateArticle(articleId, articleRequest.toDto(boardPrincipal.toDto()));
 
-
-
-    @PostMapping("/{articleId}/form")
-    public String updateArticle(@PathVariable Long articleId){
-        return "articles/form";
+        return "redirect:/articles/" + articleId;
     }
 
 
     @PostMapping("/{articleId}/delete")
-    public String deleteArticle(@PathVariable Long articleId) {
-        //TODO : 인증정보를 넣어줘야한다.
-        articleService.deleteArticle(articleId);
+    public String deleteArticle(@PathVariable Long articleId, @AuthenticationPrincipal BoardPrincipal boardPrincipal) {
+        articleService.deleteArticle(articleId, boardPrincipal.getUsername());
         return "redirect:/articles";
     }
 

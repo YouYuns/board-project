@@ -2,10 +2,12 @@ package com.shyun.boardproject.service;
 
 import com.shyun.boardproject.domain.Article;
 import com.shyun.boardproject.domain.Hashtag;
+import com.shyun.boardproject.domain.UserAccount;
 import com.shyun.boardproject.domain.type.SearchType;
 import com.shyun.boardproject.dto.ArticleDto;
 import com.shyun.boardproject.dto.ArticleWithCommentsDto;
 import com.shyun.boardproject.repository.ArticleRepository;
+import com.shyun.boardproject.repository.UserAccountRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,7 @@ import java.util.*;
 @Service
 public class ArticleService {
     private final ArticleRepository articleRepository;
+    private final UserAccountRepository userAccountRepository;
 
 
     //검색어로 게시글 검색
@@ -61,12 +64,16 @@ public class ArticleService {
         articleRepository.save(articleDto.toEntity());
     }
     //게시글 수정
-    public void updateArticle(ArticleDto articleDto) {
+    public void updateArticle(Long articleId, ArticleDto articleDto) {
         try{
-            Article article = articleRepository.getReferenceById(articleDto.id());
-            if( articleDto.title() != null){ article.setTitle(articleDto.title()); }
-            if( articleDto.content() != null )article.setContent(articleDto.content());
+            Article article = articleRepository.getReferenceById(articleId);
+            UserAccount userAccount = userAccountRepository.getReferenceById(articleDto.userAccountDto().userId());
 
+
+            if( article.getUserAccount().equals(userAccount) ){
+                if( articleDto.title() != null){ article.setTitle(articleDto.title()); }
+                if( articleDto.content() != null )article.setContent(articleDto.content());
+            }
         } catch (EntityNotFoundException e) {
             log.warn("게시글 업데이트 실패. 게시글을 찾을 수 없습니다 - dto: {}", articleDto);
         }
@@ -77,8 +84,8 @@ public class ArticleService {
         // articleRepository.save(article);
     }
     //게시글 삭제
-    public void deleteArticle(Long articleId) {
-        articleRepository.deleteById(articleId);
+    public void deleteArticle(Long articleId, String userId) {
+        articleRepository.deleteByIdAndUserAccount_UserId(articleId, userId);
     }
 
     public long getArticleCount() {
