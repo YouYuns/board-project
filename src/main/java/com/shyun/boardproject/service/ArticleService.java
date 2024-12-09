@@ -75,7 +75,7 @@ public class ArticleService {
                 if( articleDto.content() != null )article.setContent(articleDto.content());
             }
         } catch (EntityNotFoundException e) {
-            log.warn("게시글 업데이트 실패. 게시글을 찾을 수 없습니다 - dto: {}", articleDto);
+            log.warn("게시글 업데이트 실패. 게시글을 수정하는데 필요한 정보를 찾을 수 없습니다 - dto: {}", articleDto);
         }
 
         // Service레벨에 @Transactional 레벨에 묶여있어서 영속성 컨텍스트는 Article이 변한걸 감지해낸다.
