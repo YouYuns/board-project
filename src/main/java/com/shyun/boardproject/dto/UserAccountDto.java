@@ -17,7 +17,8 @@ public record UserAccountDto(
         LocalDateTime modifiedAt,
         String modifiedBy
 ) {
-
+    //createAt , createBy 등 같은 DB에 의해서 자동으로 들어가는 값들이 저장할때는 해당값들이 없다.
+    //그래서 만들때 사용할수 있는 팩토리 메서드를 추가
     public static UserAccountDto of(String userId, String userPassword, String email, String nickname, String memo) {
         return new UserAccountDto(userId, userPassword, email, nickname, memo, null, null, null, null);
     }

@@ -1,6 +1,7 @@
 package com.shyun.boardproject.service;
 
 import com.shyun.boardproject.domain.Article;
+import com.shyun.boardproject.domain.Hashtag;
 import com.shyun.boardproject.domain.type.SearchType;
 import com.shyun.boardproject.dto.ArticleDto;
 import com.shyun.boardproject.dto.ArticleWithCommentsDto;
@@ -13,8 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -35,7 +35,7 @@ public class ArticleService {
             case CONTENT -> articleRepository.findByContentContaining(searchKeyword, pageable).map(ArticleDto::from);
             case ID -> articleRepository.findByUserAccount_UserIdContaining(searchKeyword, pageable).map(ArticleDto::from);
             case NICKNAME -> articleRepository.findByUserAccount_NicknameContaining(searchKeyword, pageable).map(ArticleDto::from);
-            case HASHTAG -> null;
+            default -> articleRepository.findAll(pageable).map(ArticleDto::from);
         };
     }
 
@@ -70,5 +70,21 @@ public class ArticleService {
     //게시글 삭제
     public void deleteArticle(Long articleId) {
         articleRepository.deleteById(articleId);
+    }
+
+    public long getArticleCount() {
+        return articleRepository.count();
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ArticleDto> searchArticlesViaHashtag(String hashtag , Pageable pageable) {
+        if(hashtag == null || hashtag.isBlank()){
+            return Page.empty(pageable);
+        }
+        return null;
+    }
+
+    public List<Set<Hashtag>> getHashtags(){
+        return articleRepository.findAllDistinctHashtags();
     }
 }
