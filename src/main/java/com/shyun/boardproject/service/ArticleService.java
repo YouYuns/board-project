@@ -97,10 +97,11 @@ public class ArticleService {
         if(hashtag == null || hashtag.isBlank()){
             return Page.empty(pageable);
         }
-        return null;
+        return articleRepository.findByHashtagNames(List.of(hashtag), pageable)
+                .map(ArticleDto::from);
     }
 
-    public List<Set<Hashtag>> getHashtags(){
+    public List<String> getHashtags(){
         return articleRepository.findAllDistinctHashtags();
     }
 }
