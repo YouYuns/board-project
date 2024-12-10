@@ -1,7 +1,6 @@
 debug: false
 management.endpoints.web.exposure.include: "*"
 
-
 logging:
   level:
     com.shyun.boardproject: debug
@@ -11,14 +10,14 @@ logging:
 spring:
   application.name: boardproject
   datasource:
-    url: jdbc:mysql://localhost:3306/board
-    username: shyun
-    password: rhaehfdl2!
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     open-in-view: false
-    defer-datasource-initialization: false
-    hibernate.ddl-auto: update
+    defer-datasource-initialization: true
+    hibernate.ddl-auto: create
     show-sql: true
     properties:
       hibernate.format_sql: true
@@ -28,5 +27,16 @@ spring:
     base-path: /api
     detection-strategy: annotated
   thymeleaf3.decoupled-logic: true
-server:
-  port: 8080
+---
+spring:
+  config.activate.on-profile: testdb
+  datasource:
+    url: jdbc:h2:mem:board;mode=mysql
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa.hibernate.ddl-auto: create
+  sql.init.mode: always
+---
+
+spring:
+  config.activate.on-profile: test
+  datasource.url: jdbc:h2:mem:testdb
