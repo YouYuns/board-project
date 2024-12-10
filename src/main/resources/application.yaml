@@ -30,16 +30,3 @@ spring:
   thymeleaf3.decoupled-logic: true
 server:
   port: 8080
----
-spring:
-  config.activate.on-profile: testdb
-  datasource:
-    url: jdbc:h2:mem:board;mode=mysql
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa.hibernate.ddl-auto: create
-  sql.init.mode: always
----
-
-spring:
-  config.activate.on-profile: test
-  datasource.url: jdbc:h2:mem:testdb
