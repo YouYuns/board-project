@@ -17,7 +17,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     open-in-view: false
-    defer-datasource-initialization: true
+    defer-datasource-initialization: false
     hibernate.ddl-auto: update
     show-sql: true
     properties:
