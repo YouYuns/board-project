@@ -1,6 +1,7 @@
 debug: false
 management.endpoints.web.exposure.include: "*"
 
+
 logging:
   level:
     com.shyun.boardproject: debug
@@ -17,7 +18,7 @@ spring:
   jpa:
     open-in-view: false
     defer-datasource-initialization: true
-    hibernate.ddl-auto: create
+    hibernate.ddl-auto: update
     show-sql: true
     properties:
       hibernate.format_sql: true
@@ -27,6 +28,8 @@ spring:
     base-path: /api
     detection-strategy: annotated
   thymeleaf3.decoupled-logic: true
+server:
+  port: 8080
 ---
 spring:
   config.activate.on-profile: testdb
