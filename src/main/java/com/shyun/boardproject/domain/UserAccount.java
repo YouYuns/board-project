@@ -26,7 +26,6 @@ public class UserAccount extends AuditingFields {
     @Setter @Column(length = 100) private String nickname;
     @Setter private String memo;
 
-
     protected UserAccount() {}
 
     private UserAccount(String userId, String userPassword, String email, String nickname, String memo, String createdBy) {
