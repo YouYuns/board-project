@@ -24,10 +24,12 @@ public record ArticleCommentResponse(
     }
 
     public static ArticleCommentResponse of(Long id, String content, LocalDateTime createdAt, String email, String nickname, String userId, Long parentCommentId) {
+        //Comparator comparing createdAt을 기준으로 정렬한다
         Comparator<ArticleCommentResponse> childCommentComparator = Comparator
                 .comparing(ArticleCommentResponse::createdAt)
                 .thenComparingLong(ArticleCommentResponse::id);
         return new ArticleCommentResponse(id, content, createdAt, email, nickname, userId, parentCommentId, new TreeSet<>(childCommentComparator));
+        //Treeset은 정렬을 보장하는 set이다.
     }
 
     public static ArticleCommentResponse from(ArticleCommentDto dto) {
@@ -46,7 +48,8 @@ public record ArticleCommentResponse(
                 dto.parentCommentId()
         );
     }
-
+    
+    //ParentComment인지 아닌지 구별하기위한 메서드
     public boolean hasParentComment() {
         return parentCommentId != null;
     }
