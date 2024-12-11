@@ -33,9 +33,11 @@ public class ArticleComment extends AuditingFields {
     private UserAccount userAccount; // 유저 정보 (ID)
 
     @Setter
-    @Column(updatable = false)
+    @Column(updatable = false) // 부모댓글은 변경할수없게 해야된다.
     private Long parentCommentId; // 부모 댓글 ID
 
+
+    //LinkedHashSet<>() 순서가 있는 Set
     @ToString.Exclude
     @OrderBy("createdAt ASC")
     @OneToMany(mappedBy = "parentCommentId", cascade = CascadeType.ALL)
@@ -54,11 +56,17 @@ public class ArticleComment extends AuditingFields {
     }
 
     public static ArticleComment of(Article article, UserAccount userAccount, String content) {
+        //처음 작성하는 댓글에는 parentCommentId가없으니 대댓글이 작성시 추가하는 방식
         return new ArticleComment(article, userAccount, null, content);
     }
 
+    //대댓글을 추가
     public void addChildComment(ArticleComment child) {
         child.setParentCommentId(this.getId());
+
+        //this.getChildComments -> private Set<ArticleComment> childComments = new LinkedHashSet<>();
+        //여기다가 child를 넣으면 되는데 그냥 넣으면 안된다 왜냐하면 처음넣는 child는 부모정보가없기 때문이다.
+        //그래서 child.setParentCommentId(this.getId());
         this.getChildComments().add(child);
     }
 
