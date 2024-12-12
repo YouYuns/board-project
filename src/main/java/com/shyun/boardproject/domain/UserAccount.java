@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Getter
+//callSuper를 하면 AuditingFields까지 toString해준다
 @ToString(callSuper = true)
 @Table(indexes = {
         @Index(columnList = "email", unique = true),
@@ -34,12 +35,14 @@ public class UserAccount extends AuditingFields {
         this.email = email;
         this.nickname = nickname;
         this.memo = memo;
+        this.createdBy = createdBy;
+        this.modifiedBy = createdBy;
     }
 
     public static UserAccount of(String userId, String userPassword, String email, String nickname, String memo) {
         return UserAccount.of(userId, userPassword, email, nickname, memo, null);
     }
-
+    //oauth 카카오톡으로 로그인시 인증정보가없을 경우 createBy 누구인지 받아야된다.
     public static UserAccount of(String userId, String userPassword, String email, String nickname, String memo, String createdBy) {
         return new UserAccount(userId, userPassword, email, nickname, memo, createdBy);
     }

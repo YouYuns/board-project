@@ -1,13 +1,12 @@
 package com.shyun.boardproject.controller;
 
 
-import com.shyun.boardproject.domain.Hashtag;
 import com.shyun.boardproject.domain.type.FormStatus;
 import com.shyun.boardproject.domain.type.SearchType;
 import com.shyun.boardproject.dto.request.ArticleRequest;
 import com.shyun.boardproject.dto.response.ArticleResponse;
 import com.shyun.boardproject.dto.response.ArticleWithCommentsResponse;
-import com.shyun.boardproject.security.BoardPrincipal;
+import com.shyun.boardproject.dto.security.BoardPrincipal;
 import com.shyun.boardproject.service.ArticleService;
 import com.shyun.boardproject.service.PaginationService;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 @RequestMapping("/articles")

@@ -1,9 +1,8 @@
 package com.shyun.boardproject.controller;
 
 
-import com.shyun.boardproject.dto.UserAccountDto;
 import com.shyun.boardproject.dto.request.ArticleCommentRequest;
-import com.shyun.boardproject.security.BoardPrincipal;
+import com.shyun.boardproject.dto.security.BoardPrincipal;
 import com.shyun.boardproject.service.ArticleCommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

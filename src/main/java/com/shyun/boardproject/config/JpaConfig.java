@@ -1,7 +1,7 @@
 package com.shyun.boardproject.config;
 
 
-import com.shyun.boardproject.security.BoardPrincipal;
+import com.shyun.boardproject.dto.security.BoardPrincipal;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;

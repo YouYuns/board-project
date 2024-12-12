@@ -1,18 +1,15 @@
 package com.shyun.boardproject.config;
 
-import com.shyun.boardproject.domain.UserAccount;
 import com.shyun.boardproject.dto.UserAccountDto;
 import com.shyun.boardproject.repository.UserAccountRepository;
-import com.shyun.boardproject.security.BoardPrincipal;
+import com.shyun.boardproject.dto.security.BoardPrincipal;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
