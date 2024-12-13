@@ -68,6 +68,15 @@ public class SecurityConfig {
                 .orElseThrow(() -> new UsernameNotFoundException("유저를 찾을 수 없습니다 - username: " + username));
     }
 
+    /**
+     * Oauth 2.0기술을 이용한 인증 정보를 처리한다.
+     * 카카오 인증 방식을 선택
+     *
+     * TODO: 카카오 도메인에 결합되어있는 코드. 확장을 고려하면 별도 인증 처리 서비스 클래스로 분리하는 것이 좋지만, 현재 다른 OAuth 인증
+     * @param userAccountService 게시판 서비스의 사용자 계정을 다룬느 서비스 로직
+     * @param passwordEncoder 패스워드 암호화 도구
+     * @return {@link OAuth2UserService} OAuth2 인증 사용자 정보를 읽어들이고 처리하는 서비스 인스턴스 변환
+     */
     //OAuth 에서 UserDetailsService와같은 기능을 만들려고하는거다
     @Bean
     public OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService(
