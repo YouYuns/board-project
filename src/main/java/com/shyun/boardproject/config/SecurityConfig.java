@@ -20,6 +20,8 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.util.UUID;
+
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
@@ -92,7 +94,7 @@ public class SecurityConfig {
              * PASSWORD만들기 부분
              * KAKAO로할경우 PASSWORD는 필요없지만 UserAccount 는 비밀번호는 필수값이므로 넣어줘야된다.
              */
-            String dummyPassword = passwordEncoder.encode("{bcrypt}dummy");
+            String dummyPassword = passwordEncoder.encode("{bcrypt}" + UUID.randomUUID());
 
             return userAccountService.searchUser(username)
                     .map(BoardPrincipal::from)

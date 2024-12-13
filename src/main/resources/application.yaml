@@ -13,9 +13,9 @@ spring:
 #    url: ${SPRING_DATASOURCE_URL}
 #    username: ${SPRING_DATASOURCE_USERNAME}
 #    password: ${SPRING_DATASOURCE_PASSWORD}
-    url: jdbc:postgresql://localhost:5432/board
-    username: shyun
-    password: 1234
+    url: ${LOCAL_DB_URL}
+    username: ${LOCAL_DB_USERNAME}
+    password: ${LOCAL_DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -35,9 +35,11 @@ spring:
     oauth2:
       client:
         registration:
+          # Environment variables는 {LOCAL_DB_ID}같이 이런식으로도 가능하고
+          # Override configuration properties는 spring.securty.oauth2이런식으로직접지정도가능
           kakao:
-            client-id: id
-            client-secret: key
+            client-id: ${KAKAO_OAUTH_CLIENT_ID}
+            client-secret: ${KAKAO_OAUTH_CLIENT_SECRET}
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/login/oauth2/code/kakao"
             client-authentication-method: POST
