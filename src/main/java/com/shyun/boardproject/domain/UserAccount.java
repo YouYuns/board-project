@@ -17,6 +17,7 @@ import java.util.Objects;
 })
 @Entity
 public class UserAccount extends AuditingFields {
+    //편하게 찾아오기위해서 여기는 문자열로 id를 만드는방식으로만들어봤다.
     @Id
     @Column(length = 50)
     private String userId;
