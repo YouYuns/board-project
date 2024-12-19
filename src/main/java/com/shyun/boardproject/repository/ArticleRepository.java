@@ -5,6 +5,7 @@ import com.querydsl.core.types.dsl.DateTimeExpression;
 import com.querydsl.core.types.dsl.StringExpression;
 import com.shyun.boardproject.domain.Article;
 import com.shyun.boardproject.domain.QArticle;
+import com.shyun.boardproject.domain.projection.ArticleProjection;
 import com.shyun.boardproject.dto.ArticleDto;
 import com.shyun.boardproject.repository.querydsl.ArticleRepositoryCustom;
 import org.springframework.data.domain.Page;
@@ -17,7 +18,8 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
-@RepositoryRestResource
+//excerptProjection은 해당 클래스를 embedding하는 상황에서 노출시킬건지 여부
+@RepositoryRestResource(excerptProjection = ArticleProjection.class)
 public interface ArticleRepository extends
         JpaRepository<Article, Long>,
         ArticleRepositoryCustom,
